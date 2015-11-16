@@ -2,6 +2,7 @@ package com.example.myproject;
 import java.io.IOException;
 import javax.servlet.http.*;
 import com.example.myproject.Exercise3;
+import com.example.myproject.MathCalc;
 
 @SuppressWarnings("serial")
 public class Test_projectServlet extends HttpServlet {
