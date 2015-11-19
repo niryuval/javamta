@@ -18,7 +18,7 @@ public class MathCalc {
 	
 	public static double calcTriangle ()
 	{
-		return Math.sinh(Math.toRadians(angleB)) * hypotenuse;
+		return Math.sin(Math.toRadians(angleB)) * hypotenuse;
 	}
 	
 	public static double calcPow ()

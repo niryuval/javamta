@@ -14,13 +14,23 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>exercise 3</servlet-name>
+		<servlet-name>Exercise 3</servlet-name>
 		<servlet-class>com.example.myproject.Exercise3</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>exercise 3</servlet-name>
+		<servlet-name>Exercise 3</servlet-name>
 		<url-pattern>/exercise3</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Stock Details</servlet-name>
+		<servlet-class>com.example.myproject.StockDetailsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Stock Details</servlet-name>
+		<url-pattern>/exercise4</url-pattern>
+	</servlet-mapping>
+	
 	
 	
 	<welcome-file-list>
