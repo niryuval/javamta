@@ -11,6 +11,7 @@ public class MathCalc {
 		base = baseValue;
 		exp = expValue;
 	}
+	
 	public static double calcCircleArea ()
 	{
 		return Math.PI * Math.pow(radius,2);
@@ -20,28 +21,20 @@ public class MathCalc {
 	{
 		return Math.sinh(Math.toRadians(angleB)) * hypotenuse;
 	}
-	
+
 	public static double calcPow ()
 	{
 		return Math.pow (base , exp);
 	}
-
 	
 	public static String getResults() 
 	{
-		String line1 = new String("calculation 1: Area of circle with radius " + radius + "is : " + calcCircleArea () + " square-cm");
+		String line1 = new String("calculation 1: Area of circle with radius " + radius + " is : " + calcCircleArea () + " square-cm");
 		String line2 = new String("calculation 2: Length of opposite where angle B is " + angleB + " and hypotenuse is " + hypotenuse + " is: " + calcTriangle() + " cm");
-		String line3 = new String("calculation 3: Power of " + base + " with the exp " + exp + "is: " + (int)calcPow());
+		String line3 = new String("calculation 3: Power of " + base + " with the exp " + exp + " is: " + calcPow());
 		String resultStr = line1 + "<br>" + line2 + "<br>" + line3;
 		return resultStr;
-	}
-	
-	
-	
-	
-	
-
-	
-	}
+	}	
+}
 	
 

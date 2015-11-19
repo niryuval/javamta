@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.example.myproject.MathCalc;
 
-public class Exercise3 extends HttpServlet 
+public class Exercise3_Servlet extends HttpServlet 
 {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
