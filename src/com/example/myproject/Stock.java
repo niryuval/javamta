@@ -9,6 +9,8 @@ public class Stock {
 	private float ask, bid;
 	private Date date = new Date();
 	private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+	private int recommendation , stockQuantity;
+	final private int BUY=0 , SELL = 1 , REMOVE = 2 , HOLD = 3;
 
 	public Stock(String symbol, float ask, float bid, Date date) {
 		this.symbol = symbol;
