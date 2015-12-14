@@ -5,38 +5,11 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
-		<servlet-name>Test_project</servlet-name>
-		<servlet-class>com.example.myproject.Test_projectServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Test_project</servlet-name>
-		<url-pattern>/test_project</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>Exercise 3</servlet-name>
-		<servlet-class>com.example.myproject.Exercise3_Servlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Exercise 3</servlet-name>
-		<url-pattern>/exercise3</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>Exercise 4</servlet-name>
-		<servlet-class>com.example.myproject.StockDetailsServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Exercise 4</servlet-name>
-		<url-pattern>/stockdetails</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>Exercise 5</servlet-name>
+		<servlet-name>Exercise 6</servlet-name>
 		<servlet-class>com.example.myproject.servlet.PortfolioServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Exercise 5</servlet-name>
+		<servlet-name>Exercise 6</servlet-name>
 		<url-pattern>/portfolio</url-pattern>
 	</servlet-mapping>		
 	

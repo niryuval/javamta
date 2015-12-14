@@ -1,54 +1,62 @@
 package com.example.myproject.model;
-
-import java.util.Arrays;
-
-import com.example.myproject.Stock;
-
+import java.util.ArrayList;
+ 
+ 
 public class Portfolio {
-	private String title = new String ("<h1> Portfolio </h1>");
-	final static int MAX_PORTFOLIO_SIZE = 5;
-	private Stock[] stocks;
-	private int portfolioSize=0;
-	
-	public int getMaxPortfolioSize() {
-		return MAX_PORTFOLIO_SIZE;
-	}
-
-	public void setStocks(Stock[] stocks) {
-		this.stocks = stocks;
-	}
-
-	public Portfolio() {
-		stocks = new Stock [MAX_PORTFOLIO_SIZE];
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public void addStock (Stock stock){
-		if(portfolioSize < MAX_PORTFOLIO_SIZE){
-			stocks[portfolioSize] = stock;
-			portfolioSize++;
-		}
-		else
-			return;
-	}
-
-	public Stock[] getStocks() {
-		return stocks;
-	}
-	
-	public String getHtmlString() {
-		String result="";
-		for (int i=0; i<portfolioSize ; i++){
-			result = result + (stocks[i].getHtmlDescription() + "<br>");
-		}
-			return (title+result);
-	}
-	
+        private String title = new String ();
+        private ArrayList<Stock> stocks = new ArrayList<Stock>();
+       
+        /**
+         *
+         * Portfolio c'tor
+         */
+        public Portfolio(ArrayList<Stock> stocks, String title) {
+                this.stocks = new ArrayList<Stock>(stocks);
+                this.title = title;
+        }
+       
+        /**
+         *
+         * Copy c'tor of Portfolio
+         */
+        public Portfolio (Portfolio portfolio){
+                ArrayList<Stock> arr = new ArrayList<Stock>(portfolio.stocks.size());
+                        for (Stock stock: portfolio.stocks){
+                        arr.add(new Stock(stock));
+                        }
+                this.stocks = arr;
+                setTitle(portfolio.getTitle());
+        }
+ 
+        public Portfolio() {
+        }
+ 
+        public ArrayList<Stock> getStock(){
+                return stocks;
+        }
+       
+        public void removeFromList(int index){
+                stocks.remove(index);
+        }
+ 
+        public String getTitle() {
+                return title;
+        }
+ 
+        public void setTitle(String title) {
+                this.title = title;
+        }
+       
+        public void addStock(Stock stock){
+                stocks.add(stock);
+        }
+       
+        public String getHtmlString() {
+                String result = "";
+                for(Stock stocks: stocks){
+                        result = (result + stocks.getHtmlDescription() + "<br></br>");
+                }
+                return (title+result);
+        }
+       
 }
