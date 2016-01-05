@@ -76,7 +76,7 @@ public class Portfolio implements PortfolioInterface {
 		this.stocks = si;
 	}
 		@Override
-		public StockInterface[] getStocks(){
+		public synchronized StockInterface[] getStocks(){
 			StockInterface[] stockArray = new StockInterface[stocks.size()];
 			stocks.toArray(stockArray);
 			return stockArray;
@@ -99,7 +99,7 @@ public class Portfolio implements PortfolioInterface {
         * @param index
         * Method removes a stock from the portfolio
         */
-        public void removeFromList(int index){
+        public synchronized void removeFromList(int index){
         	
                 stocks.remove(index);
         }
@@ -117,26 +117,27 @@ public class Portfolio implements PortfolioInterface {
          * @param stock
          * Method used to add a stock to the portfolio.
          */
-        public void addStock(StockInterface stock){
+        public synchronized void addStock(Stock stock){
         	Boolean stockExists = false;
-        	if(this.stocks.size() == 0){
-        		((Stock) stock).setStockQuantity(0);
+        	if(stocks.isEmpty()){
+        		((Stock)stock).setStockQuantity(0);
     			stocks.add(stock);
         	}
         	else{
-	        	for (StockInterface stocks: this.stocks)
-	        	{
-	        		if(stocks.getSymbol() == stock.getSymbol())
-	        		{
-	        			stockExists = true;
+	        	for (StockInterface s1: this.stocks){
+	        		if(s1.getSymbol() == stock.getSymbol()){
+	        			break;
 	        		}
+	        		else{
+	        			stockExists = true;
+	        			}
 	        	}
         	}
-        	if(!stockExists)
+        	if(stockExists)
         	{
+        		((Stock)stock).setStockQuantity(0);
         		stocks.add(stock);
         	}
-        
         }
       
        public float getBalance() {
@@ -152,7 +153,7 @@ public class Portfolio implements PortfolioInterface {
 		 * @param amount
 		 * Method used to update portfolio's balance.
 		 */
-		public void updateBalance(float amount)
+		public synchronized void updateBalance(float amount)
 		{
 			if(balance + amount >= 0)
 			{
@@ -169,7 +170,7 @@ public class Portfolio implements PortfolioInterface {
 		 * @return
 		 * Method used to remove a stock from portfolio, by selling all stocks of the input symbol.
 		 */
-		public Boolean removeStock(String symbol)
+		public synchronized Boolean removeStock(String symbol)
 		{
 			Boolean stockExists = false, operationSuccessful = false;
 			int i=0;
@@ -198,7 +199,7 @@ public class Portfolio implements PortfolioInterface {
 		 * @return
 		 * Method used to sell stocks of input symbol by quantity.
 		 */
-		public Boolean sellStock(String symbol, int quantity)
+		public synchronized Boolean sellStock(String symbol, int quantity)
 		{
 			Boolean operationSuccessful = false;
 			for(StockInterface stocks: stocks)
@@ -239,7 +240,7 @@ public class Portfolio implements PortfolioInterface {
 		 * @return
 		 * Method used to buy stocks of input symbol by quantity.
 		 */
-		public Boolean buyStock(StockInterface stock, int quantity)
+		public synchronized Boolean buyStock(StockInterface stock, int quantity)
 		{
 			Boolean operationSuccessful = false, stockExists = false;
 			int actualQuantity;
@@ -271,7 +272,8 @@ public class Portfolio implements PortfolioInterface {
 					else if(quantity*stocks.getAsk() > getBalance())
 					{
 						operationSuccessful = false;
-						
+						System.out.println(ERROR_MESSAGE.NEGATIVE_BALANCE);
+
 					}
 					
 					else
@@ -281,11 +283,7 @@ public class Portfolio implements PortfolioInterface {
 							updateBalance(stocks.getAsk()*quantity*(-1));
 							((Stock) stocks).setStockQuantity(((Stock) stocks).getStockQuantity() + quantity);
 							operationSuccessful = true;
-						}
-						else
-						{
-							System.out.println(ERROR_MESSAGE.NEGATIVE_BALANCE);
-						}
+						}	
 					}
 					continue;
 				}
@@ -298,7 +296,7 @@ public class Portfolio implements PortfolioInterface {
 		 * @return
 		 * Method used to retrieve the total value of all stocks in portfolio.
 		 */
-		public float getStocksValue()
+		public synchronized float getStocksValue()
 		{
 			float sum = 0;
 			for(StockInterface stocks: stocks)
@@ -309,7 +307,7 @@ public class Portfolio implements PortfolioInterface {
 		}
 		
 		
-		public Stock findStock(String symbol){
+		public synchronized Stock findStock(String symbol){
 			Stock s1 = null;
 			for(StockInterface s: this.stocks){
 				if(s.getSymbol().equals(symbol)){
@@ -330,7 +328,7 @@ public class Portfolio implements PortfolioInterface {
 		 * @return
 		 * Method used to return the total value of all portfolio assets(stocks and balance).
 		 */
-		public float getPortfolioValue()
+		public synchronized float getPortfolioValue()
 		{
 			float value = (getStocksValue() + getBalance());
 			return value;
@@ -341,7 +339,7 @@ public class Portfolio implements PortfolioInterface {
         * @return
         * Method returns a HTML string of stocks.
         */
-        public String getHtmlString() {
+        public synchronized String getHtmlString() {
                 String result = "";
                 result = (result + "<br></br>" + "Total Portfolio Value: " + getPortfolioValue() + "$" + "<br></br>"
                 + "Total Stocks Value: " + getStocksValue() + "$" + "<br></br>" 

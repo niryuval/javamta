@@ -93,11 +93,11 @@ public class Stock implements StockInterface {
 		this.date = date;
 	}
 	
-	public synchronized int getStockQuantity() {
+	public int getStockQuantity() {
 		return stockQuantity;
 	}
 
-	public synchronized void setStockQuantity(int stockQuantity) {
+	public void setStockQuantity(int stockQuantity) {
 		this.stockQuantity = stockQuantity;
 	}
 
@@ -115,7 +115,7 @@ public class Stock implements StockInterface {
 	 * Returns HTML description of stock
 	 */
 	
-	public String getHtmlDescription() {
+	public synchronized String getHtmlDescription() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		String line = (" <b> Stock symbol: </b> " + getSymbol() + " <b> ask: </b> " + 
 		getAsk() + " <b> bid: </b> " + getBid() + " <b> date: </b> " + 
