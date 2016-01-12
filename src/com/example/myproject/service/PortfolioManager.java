@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.algo.dto.PortfolioDto;
 import org.algo.dto.PortfolioTotalStatus;
 import org.algo.dto.StockDto;
@@ -16,10 +17,16 @@ import org.algo.service.DatastoreService;
 import org.algo.service.MarketService;
 import org.algo.service.PortfolioManagerInterface;
 import org.algo.service.ServiceManager;
+
+import com.example.myproject.exception.BalanceException;
+import com.example.myproject.exception.NotEnoughStocks;
+import com.example.myproject.exception.StockAlreadyExistsException;
+import com.example.myproject.exception.StockNotExistException;
 import com.example.myproject.model.Portfolio;
 import com.example.myproject.model.Stock;
 import com.example.myproject.model.Stock.ALGO_RECOMMENDATION;
 
+@SuppressWarnings("unused")
 public class PortfolioManager implements PortfolioManagerInterface {
 	private DatastoreService dataStoreService = ServiceManager.datastoreService();
 	
@@ -71,7 +78,7 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	}
 
 	@Override
-	public void updateBalance(float value) throws PortfolioException {
+	public void updateBalance(float value) throws BalanceException {
 		Portfolio portfolio = (Portfolio) getPortfolio();
 		portfolio.updateBalance(value);
 		flush(portfolio);
@@ -128,16 +135,20 @@ public class PortfolioManager implements PortfolioManagerInterface {
 
 
 	@Override
-	public void addStock(String symbol) {
+	public void addStock(String symbol) throws StockAlreadyExistsException, StockNotExistException {
 		Portfolio portfolio = (Portfolio) getPortfolio();
+
 		try {
-			//get current symbol values from nasdaq.
 			StockDto stockDto = ServiceManager.marketService().getStock(symbol);
+			
+			//get current symbol values from nasdaq.
 			Stock stock = fromDto(stockDto);
 			
 			//first thing, add it to portfolio.
-			portfolio.addStock(stock);
-			
+			portfolio.addStock(stock);   
+			//or:
+			//portfolio.addStock(stock);   
+
 			//second thing, save the new stock to the database.
 			dataStoreService.saveStock(toDto(portfolio.findStock(symbol)));
 			
@@ -148,7 +159,7 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	}
 
 	@Override
-	public void buyStock(String symbol, int quantity) throws PortfolioException {
+	public void buyStock(String symbol, int quantity) throws BalanceException, StockAlreadyExistsException {
 		Portfolio portfolio = (Portfolio) getPortfolio();
 		Stock s1 = new Stock(portfolio.findStock(symbol));
 		portfolio.buyStock(s1, quantity);
@@ -156,14 +167,14 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	}
 
 	@Override
-	public void sellStock(String symbol, int quantity) throws PortfolioException {
+	public void sellStock(String symbol, int quantity) throws BalanceException, NotEnoughStocks {
 		Portfolio portfolio = (Portfolio) getPortfolio();
 		portfolio.sellStock(symbol, quantity);
 		flush(portfolio);
 	}
 
 	@Override
-	public void removeStock(String symbol) throws PortfolioException {
+	public void removeStock(String symbol) throws BalanceException, NotEnoughStocks, StockNotExistException, StockAlreadyExistsException {
 		Portfolio portfolio = (Portfolio) getPortfolio();
 		portfolio.removeStock(symbol);
 		flush(portfolio);
